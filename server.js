@@ -1,7 +1,14 @@
 const express = require("express");
 const mongoose = require('mongoose');
 
-require('dotenv').config({path:"config/Keys.env"});
+
+
+
+if(process.env.NODE_ENV!="production")
+{
+    require('dotenv').config({path:"config/Keys.env"});
+}
+
 
 const productController = require("./controllers/ProductController.js")
 
