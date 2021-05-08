@@ -1,50 +1,25 @@
 const express = require('express')
 const  router = express.Router()
 
-// middleware that is specific to this router
-
-// define the home page route
-
+const productService = require("../services/ProductService.js");
 
 //GIVES ME ALL THE USERS
-router.get('/',  (req, res) =>{
-  res.json({
-      message : "A list of all the users"
-  })
-})
+router.get('/', productService.getAllProducts )
 
 
 //GIVES ME A USER
-router.get('/:id',  (req, res) =>{
-    res.json({
-        message : "A list of all the users"
-    })
-  })
-  
-  
+router.get('/:id',productService.getAProduct)
 
 
 //CREATES A USER
-router.post('/',  (req, res) =>{
-    res.json({
-        message : "A list of all the users"
-    })
-  })
+router.post('/', productService.createAProduct)
 
 
-  //UPDATES A USER
-  router.put('/:id',  (req, res) =>{
-    res.json({
-        message : "A list of all the users"
-    })
-  })
+//UPDATES A USER
+router.put('/:id', productService.updateAProduct)
 
 
-  //DELETES A USER
-  router.delete('/:id',  (req, res) =>{
-    res.json({
-        message : "A list of all the users"
-    })
-  })
+//DELETES A USER
+router.delete('/:id',productService.deleteAProduct)
 
 module.exports = router;
