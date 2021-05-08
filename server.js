@@ -7,6 +7,9 @@ const productController = require("./controllers/ProductController.js")
 
 const app = express();
 
+//This middleware that will allow your API to parse incoming JSON data
+app.use(express.json());
+
 
 app.use("/products",productController);
 
