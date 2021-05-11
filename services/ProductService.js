@@ -43,6 +43,7 @@ exports.getAllProducts = (req,res)=>{
         {
             search = false
         }
+        console.log(search)
         
 
         productModel.find({isBestseller : search})  
@@ -133,6 +134,8 @@ exports.createAProduct = (req,res)=>{
 
 
     const newProduct  = req.body;
+
+    //validation
     
     const product = new productModel(newProduct);
 
@@ -160,12 +163,12 @@ exports.createAProduct = (req,res)=>{
 exports.updateAProduct = (req,res)=>{
 
 
-
-    //1. Lazy Way
-    //2
-    //3
-
     const updatedDate = req.body;
+
+
+    //validation
+
+
     productModel.findByIdAndUpdate(req.params.id,updatedDate,{new:true})
     .then(product=>{
 

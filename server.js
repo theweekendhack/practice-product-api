@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 
 
-
 if(process.env.NODE_ENV!="production")
 {
     require('dotenv').config({path:"config/Keys.env"});
@@ -11,14 +10,19 @@ if(process.env.NODE_ENV!="production")
 
 
 const productController = require("./controllers/ProductController.js")
+const userController = require("./controllers/UserController.js");
+
 
 const app = express();
+
+
 
 //This middleware that will allow your API to parse incoming JSON data
 app.use(express.json());
 
 
 app.use("/products",productController);
+app.use("/users",userController);
 
 const PORT = process.env.PORT;
 
