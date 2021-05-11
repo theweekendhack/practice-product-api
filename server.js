@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require('mongoose');
-
+const fileUpload = require('express-fileupload');
 
 
 if(process.env.NODE_ENV!="production")
@@ -17,8 +17,12 @@ const app = express();
 
 
 
-//This middleware that will allow your API to parse incoming JSON data
+//This middleware allows your API to parse incoming JSON data
 app.use(express.json());
+
+
+///This middleware  allows your API to parse incoming multipart/form-data (Data that contains both text and file(s))
+app.use(fileUpload());
 
 
 app.use("/products",productController);

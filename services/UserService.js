@@ -32,8 +32,36 @@ exports.getUserListing =(req,res)=>{
 exports.addAUser=(req,res)=>{
 
 
+    
+    
+
+
     const data = req.body;
 
+  
+    req.body.profilePic = req.files.profilePic.name;
+
+    const fileType =req.files.profilePic.mimetype;
+
+    
+    if( fileType.includes("image") )
+    {
+            console.log(`Yay, you upload an image`)
+
+            req.files.profilePic.mv("assets/img/uploads")
+            .then(()=>{
+                console.log(`File Uploaded successfully!!!!!!`)
+            })
+            .catch(err=>console.log(`Error :${err}`))
+    }
+    else
+    {
+            console.log(`Sorry, you didn't upload an image.You can only upload (jpeg,gif,png)`)
+    }
+
+   
+
+    /*
     const newUser = new userModel(data);
 
     newUser.save() //this will trigger a promise
@@ -53,13 +81,10 @@ exports.addAUser=(req,res)=>{
         res.status(500).json({
             message : `Error ${err}`,
         })  
-    }) 
+    }) */
 
 
 
-    //TWILLIO 
-
-       //SEND GRID
 };
 
 

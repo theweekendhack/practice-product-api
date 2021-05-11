@@ -21,7 +21,7 @@ const userSchema = new Schema({
     profilePic:
     {
         type:String,
-        default: "default.jpg"  
+        default : "default.jpg"  
     },  
     password:
     {
