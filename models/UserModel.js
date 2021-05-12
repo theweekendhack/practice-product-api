@@ -34,7 +34,6 @@ const userSchema = new Schema({
         default:Date.now()
     }
 
-
 });
 
 const userModel = mongoose.model('user', userSchema);

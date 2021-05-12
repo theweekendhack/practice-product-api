@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
+const cors = require("cors");
 
 
 if(process.env.NODE_ENV!="production")
@@ -8,14 +9,10 @@ if(process.env.NODE_ENV!="production")
     require('dotenv').config({path:"config/Keys.env"});
 }
 
-
 const productController = require("./controllers/ProductController.js")
 const userController = require("./controllers/UserController.js");
 
-
 const app = express();
-
-
 
 //This middleware allows your API to parse incoming JSON data
 app.use(express.json());
@@ -24,6 +21,12 @@ app.use(express.json());
 ///This middleware  allows your API to parse incoming multipart/form-data (Data that contains both text and file(s))
 app.use(fileUpload());
 
+
+app.use(cors({
+    orgin: process.env.FRONT_END_HOST_ADDRESS    
+}))
+
+app.use(express.static('assets'))
 
 app.use("/products",productController);
 app.use("/users",userController);

@@ -1,8 +1,7 @@
 
+const { v4: uuidv4 } = require('uuid');
 
 const userModel = require("../models/UserModel.js");
-
-
 exports.getUserListing =(req,res)=>{
 
 
@@ -32,56 +31,83 @@ exports.getUserListing =(req,res)=>{
 exports.addAUser=(req,res)=>{
 
 
-    
-    
-
-
+    //The assign the JSON data from the body of the req to a variable call data
     const data = req.body;
 
-  
-    req.body.profilePic = req.files.profilePic.name;
 
+
+    //This extracts the file type of the uploaded file
     const fileType =req.files.profilePic.mimetype;
 
-    
+
+    //This validates that the user uploaded an image
     if( fileType.includes("image") )
     {
-            console.log(`Yay, you upload an image`)
 
-            req.files.profilePic.mv("assets/img/uploads")
+
+
+            //Generates a unique ID
+            const id = uuidv4(); 
+
+
+            //Rename the name of the upload file to include the unique  ID
+            const imageName =  `${id}_${req.files.profilePic.name}`;
+
+
+                //This appends the name of the file to the req.body
+                req.body.profilePic = imageName;
+
+                
+            //Get the Absolute path of the folder where the uplaoded file is going to be stored
+            const path = `${process.cwd()}/assets/img/uploads/${imageName}`
+
+
+            //upload the file
+            req.files.profilePic.mv(path)
             .then(()=>{
-                console.log(`File Uploaded successfully!!!!!!`)
+
+
+                const newUser = new userModel(data);
+
+                newUser.save() //this will trigger a promise
+            
+                .then((user)=>{ 
+                   
+                    res.json({
+                        message: `The user was successfully created`,
+                        data : user
+                   
+                   
+                   
+                    })
+                })
+               .catch(err=>{
+            
+                    res.status(500).json({
+                        message : `Error ${err}`,
+                    })  
+                }) 
+
             })
-            .catch(err=>console.log(`Error :${err}`))
+            .catch(err=>{
+
+                res.status(500).json({
+                    message : `Error ${err}`,
+                })  
+            })
     }
+
+    //User did not upload an image
     else
     {
-            console.log(`Sorry, you didn't upload an image.You can only upload (jpeg,gif,png)`)
+        res.status(400).json({
+            message : `Sorry, you can only upload images!!!!!!!`,
+        })  
     }
 
    
 
-    /*
-    const newUser = new userModel(data);
-
-    newUser.save() //this will trigger a promise
-
-    .then((user)=>{ 
-       
-        res.json({
-            message: `The user was successfully created`,
-            data : user
-       
-       
-       
-        })
-    })
-   .catch(err=>{
-
-        res.status(500).json({
-            message : `Error ${err}`,
-        })  
-    }) */
+    
 
 
 

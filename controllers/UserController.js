@@ -9,7 +9,6 @@ router.get("/:id",userService.getSingleUser);
 
 router.post("/", userService.addAUser);
 
-
 router.delete("/:id",userService.deleteAUser);
 
 module.exports=router;
